@@ -1,2 +1,2 @@
 # Amnesia
-A database that forgets everything you send it
+A key/value store that forgets everything you send it
