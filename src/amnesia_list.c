@@ -53,7 +53,7 @@ bool amnesia_list_delete(amnesia_list *list, amnesia_list_node *n)
       a = a->next;
     } else {
       if(a->next->next != NULL) {
-        // Delete and save its children
+        /* Delete and save its children */
         amnesia_list_node *child = a->next->next;
 
         free(a->next);
@@ -61,7 +61,7 @@ bool amnesia_list_delete(amnesia_list *list, amnesia_list_node *n)
 
         return true;
       } else {
-        // It has no children, just free() it.
+        /* It has no children, just free() it. */
         free(a->next);
 
         return true;
@@ -78,7 +78,7 @@ bool amnesia_list_delete_by_value(amnesia_list *list, void *data)
 
   while(a->next != NULL) {
     if(a->data == data) {
-      // If it has children, save them (think of the children).
+      /* If it has children, save them (think of the children). */
       if(a->next->next != NULL) {
         amnesia_list_node *child = a->next->next;
 
