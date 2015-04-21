@@ -74,7 +74,7 @@ bool amnesia_list_delete(amnesia_list *list, amnesia_list_node *n)
 
 bool amnesia_list_delete_by_value(amnesia_list *list, void *data)
 {
-  amnesia_list_node *a, *b, *next;
+  amnesia_list_node *a, *next;
 
   /* Start at the list head */
   a = list->head;

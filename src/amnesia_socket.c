@@ -23,7 +23,7 @@ amnesia_socket *amnesia_create_socket(char *addr, int port)
 
   listen(_sockfd, 1024);
 
-  amnesia_socket *socket;
+  amnesia_socket *socket = malloc(sizeof(amnesia_socket));
 
   socket->sockfd = _sockfd;
   socket->servaddr = &_servaddr;
