@@ -20,5 +20,6 @@ extern amnesia_list_node *amnesia_list_new_node(void *data);
 extern bool amnesia_list_add(amnesia_list *list, amnesia_list_node *n);
 extern bool amnesia_list_delete(amnesia_list *list, amnesia_list_node *n);
 extern bool amnesia_list_delete_by_value(amnesia_list *list, void *data);
+extern void amnesia_list_free(amnesia_list *list);
 
 #endif /* AMNESIA_LIST_H */

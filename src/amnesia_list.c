@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/amnesia_list.h"
+#include "amnesia_list.h"
 
 amnesia_list *amnesia_list_new(void)
 {
@@ -74,26 +74,53 @@ bool amnesia_list_delete(amnesia_list *list, amnesia_list_node *n)
 
 bool amnesia_list_delete_by_value(amnesia_list *list, void *data)
 {
-  amnesia_list_node *a = list->head;
+  amnesia_list_node *a, *b, *next;
+
+  /* Start at the list head */
+  a = list->head;
 
   while(a->next != NULL) {
     if(a->data == data) {
-      /* If it has children, save them (think of the children). */
+      /*
+       * If it has children, save them (think of the children).
+       *
+       * Example: A->B->C->D->E, delete C,
+       * Output: A->B->D->E
+       */
       if(a->next->next != NULL) {
         amnesia_list_node *child = a->next->next;
 
-        free(a->next);
-        a->next = child;
-
-        return true;
+        next = child;
       } else {
-        free(a->next);
-        a->next = NULL;
-
-        return true;
+        next = NULL;
       }
+
+      a->next = next;
+      return true;
     }
   }
 
   return false;
+}
+
+void amnesia_list_free(amnesia_list *list)
+{
+  if(list == NULL)
+    return;
+
+  amnesia_list_node *a, *b;
+
+  a = list->head;
+
+  while(a != NULL)
+  {
+    b = a->next;
+
+    free(a->data);
+    free(a);
+
+    a = b;
+  }
+
+  free(list);
 }
