@@ -1,3 +1,15 @@
+/*
+ * Copyright (c) 2015 ShitOfTheMonth.
+ *
+ * Amnesia is a key/value store that forgets everything you
+ * send it.
+ *
+ * Authors: Evan Darwin <evan@devil.io>
+ * 					Chazz Wolcott <emokitty@limun.org>
+ *
+ * Released under the MIT license, available in the LICENSE file.
+ */
+
 #ifndef AMNESIA_LIST_H
 #define AMNESIA_LIST_H
 
