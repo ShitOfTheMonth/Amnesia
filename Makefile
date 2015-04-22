@@ -1,5 +1,7 @@
+GIT_VERSION := $(shell git describe --always --tags)
+
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-Wall -DVERSION=\"$(GIT_VERSION)\"
 INCLUDES=-Iinclude
 
 BIN_PATH=bin

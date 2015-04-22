@@ -20,6 +20,11 @@
 #include "amnesia.h"
 #include "amnesia_socket.h"
 
+/* This should be provided by our make task */
+#ifndef VERSION
+#define VERSION "unknown"
+#endif
+
 /* Let's begin this shit */
 #define AMNESIA_CONN_BUFFER_SIZE 1024
 
@@ -30,8 +35,18 @@
 
 int main(int argc, char **argv)
 {
+  char ascii_poop[512];
+  strcpy(ascii_poop, "     ~'. _^ _ '~   \n");
+  strcat(ascii_poop, "     ~' (____) '~  \n");
+  strcat(ascii_poop, "     ~'(______) '~ \n");
+  strcat(ascii_poop, "     '(________) '~\n");
+  strcat(ascii_poop, "     (__________)  \n");
+
   /* CLI argument variables */
-  char usage_str[] = "Usage: %s [-b <host>] [-p <port>]\n";
+  char usage_str[256];
+  strcpy(usage_str, "Amnesia (version %s) - (C) 2015 ShitOfTheMonth\n\n");
+  strcat(usage_str, "Usage: %s [-b <host>] [-p <port>]\n");
+
   char hostname_err_str[] = "Hostname is too long. Maximum of %d characters.\n";
   char output_str[255];
 
@@ -63,7 +78,7 @@ int main(int argc, char **argv)
         case 'h':
         case '?':
         default:
-          sprintf(output_str, usage_str, argv[0]);
+          sprintf(output_str, usage_str, VERSION, argv[0]);
 
           amnesia_exit(output_str, 0);
       }
@@ -79,7 +94,8 @@ int main(int argc, char **argv)
   pid_t child_pid;
   socklen_t client_len;
 
-  printf("Starting Amnesia on %s:%d\n", opt_host, opt_port);
+  printf("%s\n [ Shit of the Month ]\n [    April 2015     ]\n", ascii_poop);
+  printf("\nStarting Amnesia on %s:%d\n", opt_host, opt_port);
   amnesia_socket *sock = amnesia_create_socket(opt_host, opt_port);
 
   struct sockaddr_in client_addr;
