@@ -23,7 +23,7 @@
 /* Let's begin this shit */
 #define AMNESIA_CONN_BUFFER_SIZE 1024
 
-#define AMNESIA_MAX_BINDHOST_LEN 256
+#define AMNESIA_MAX_BINDHOST_LEN 64
 
 #define AMNESIA_DEFAULT_SOCK_ADDR "0.0.0.0"
 #define AMNESIA_DEFAULT_SOCK_PORT 6789
@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 {
   /* CLI argument variables */
   char usage_str[] = "Usage: %s [-b <host>] [-p <port>]\n";
+  char hostname_err_str[] = "Hostname is too long. Maximum of %d characters.\n";
   char output_str[255];
 
   char opt_host[AMNESIA_MAX_BINDHOST_LEN] = AMNESIA_DEFAULT_SOCK_ADDR;
@@ -43,8 +44,11 @@ int main(int argc, char **argv)
     if((c = getopt(argc, argv, "hb:p:")) != -1) {
       switch(c) {
         case 'b':
-          if(sizeof(optarg) > AMNESIA_MAX_BINDHOST_LEN)
-            amnesia_exit("Hostname is too long. Max %d characters", AMNESIA_MAX_BINDHOST_LEN);
+          if(strlen(optarg) > AMNESIA_MAX_BINDHOST_LEN) {
+            sprintf(output_str, hostname_err_str, AMNESIA_MAX_BINDHOST_LEN);
+
+            amnesia_exit(output_str, AMNESIA_MAX_BINDHOST_LEN);
+          }
 
           strncpy(opt_host, optarg, AMNESIA_MAX_BINDHOST_LEN - 1);
           opt_host[AMNESIA_MAX_BINDHOST_LEN - 1] = '\0'; /* set last char to null */
@@ -52,7 +56,7 @@ int main(int argc, char **argv)
           break;
         case 'p':
           if((opt_port = atoi(optarg)) <= 1024) {
-            amnesia_exit("Invalid port number, must be >1024.", EXIT_FAILURE);
+            amnesia_exit("Invalid port number, must be >1024.\n", EXIT_FAILURE);
           }
 
           break;
