@@ -17,7 +17,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-#include "main.h"
 #include "amnesia.h"
 #include "amnesia_socket.h"
 
