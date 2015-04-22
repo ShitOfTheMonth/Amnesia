@@ -34,8 +34,8 @@ int main(int argc, char **argv)
   char usage_str[] = "Usage: %s [-b <host>] [-p <port>]\n";
   char output_str[255];
 
-  char opt_host[AMNESIA_MAX_BINDHOST_LEN];
-  int opt_port;
+  char opt_host[AMNESIA_MAX_BINDHOST_LEN] = AMNESIA_DEFAULT_SOCK_ADDR;
+  int opt_port = AMNESIA_DEFAULT_SOCK_PORT;
 
   while(1) {
     char c;
@@ -43,8 +43,6 @@ int main(int argc, char **argv)
     if((c = getopt(argc, argv, "hb:p:")) != -1) {
       switch(c) {
         case 'b':
-          printf("Host set to %s", optarg);
-
           if(sizeof(optarg) > AMNESIA_MAX_BINDHOST_LEN)
             amnesia_exit("Hostname is too long. Max %d characters", AMNESIA_MAX_BINDHOST_LEN);
 
@@ -53,8 +51,6 @@ int main(int argc, char **argv)
 
           break;
         case 'p':
-          printf("Port set to %s", optarg);
-
           if((opt_port = atoi(optarg)) <= 1024) {
             amnesia_exit("Invalid port number, must be >1024.", EXIT_FAILURE);
           }
@@ -73,15 +69,14 @@ int main(int argc, char **argv)
     }
   }
 
-  amnesia_exit(NULL, 0);
-
   /* Construct the socket */
   int n, conn_fd;
   char mesg[AMNESIA_CONN_BUFFER_SIZE];
   pid_t child_pid;
   socklen_t client_len;
 
-  amnesia_socket *sock = amnesia_create_socket("0.0.0.0", 6789);
+  printf("Starting Amnesia on %s:%d\n", opt_host, opt_port);
+  amnesia_socket *sock = amnesia_create_socket(opt_host, opt_port);
 
   struct sockaddr_in client_addr;
 
